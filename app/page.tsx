@@ -1,12 +1,25 @@
+"use client";
+
 import { ModeToggle } from "@/components/mode-toggle";
-import Image from "next/image";
+import Landing from "@/components/landing";
+import { useFiles } from "@/providers/fs-provider";
+import { useEffect } from "react";
 
 export default function Home() {
+  const fileSystem = useFiles(); 
+
+  useEffect(() => {
+    fileSystem.readRootDirectory();
+  }, [])
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <ModeToggle />
+      <div 
+        className="flex font-varela flex-col z-10 p-3 w-full items-center justify-center"
+      >
+        <div className="fixed top-3 right-3">
+          <ModeToggle />
+        </div>
+        <Landing />
       </div>
-    </main>
   );
 }

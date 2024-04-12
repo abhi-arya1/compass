@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Varela';
+  src: url('../public/VarelaRound-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 @tailwind base;
   @tailwind components;
   @tailwind utilities;
@@ -74,3 +82,8 @@
       @apply bg-background text-foreground;
     }
   }
+
+
+.font-varela { 
+  font-family: 'Varela', normal;
+}
