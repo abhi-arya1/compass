@@ -12,9 +12,23 @@ export class Path {
         segments.pop();
         return segments.join('/') || '/';
     }
+
+    getSegments(): Path[] { 
+        const segments = this.path.split('/').filter(Boolean); 
+        const pathSegments = segments.map((_, index, array) => 
+        new Path('/' + array.slice(0, index + 1).join('/'))
+        );
+
+        return pathSegments;
+    }
+
     getBaseName(): string {
         const segments = this.path.split('/');
         return segments.pop() || '';
+    }
+
+    getAbsolute(): string { 
+        return this.path;
     }
 
     isAbsolute(): boolean {
@@ -23,6 +37,26 @@ export class Path {
 
     isDirectory(): boolean {
         return this.isDir;
+    }
+
+    isEqual(other: Path): boolean { 
+        return this.path === other.getAbsolute();
+    }
+
+    getChild(): Path {
+        const segments = this.path.split('/').filter(Boolean);
+
+        if (segments.length <= 1) {
+            return this;
+        }
+
+        const childPath = '/' + segments.slice(0, 2).join('/');
+
+        if (childPath === this.path) {
+            return this;
+        }
+        
+        return new Path(childPath, segments.length > 2);
     }
 
     static join(...paths: string[]): string {

@@ -4,11 +4,20 @@ import { FileSystemType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import Folder from "./folder"
 import { ElementRef, useRef, useState, useEffect } from "react";
+import DocumentList from "./document-list";
+import { Path } from "@/lib/paths";
+
+interface SidebarProps {
+    files: FileSystemType["files"]
+    directories: FileSystemType["directories"]
+    _onDoubleClick: (path: Path) => void
+}
 
 const Sidebar = ({
     files, 
-    directories
-}: FileSystemType) => {
+    directories,
+    _onDoubleClick
+}: SidebarProps) => {
     const isResizingRef = useRef(false);
     const sidebarRef = useRef<ElementRef<"aside">>(null);
     const [isResetting, setIsResetting] = useState(false);
@@ -64,15 +73,12 @@ const Sidebar = ({
                     isResetting && "transition-all ease-in-out duration-300")}
             >
 
-                <div className="text-sm">
-                    {
-                        directories.map((path, idx) => {
-                            return ( 
-                                <Folder key={idx} path={path} />
-                            ) 
-                        })
-                    }
-                </div>
+                <DocumentList
+                    files={files}
+                    directories={directories}
+                    level={0}
+                    _onDoubleClick={_onDoubleClick}
+                />
                 
                 <div
                     onMouseDown={handleMouseDown}
